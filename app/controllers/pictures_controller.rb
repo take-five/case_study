@@ -1,8 +1,10 @@
 class PicturesController < ApplicationController
-  filter_resource_access :nested_in => :monument
   respond_to :html
 
   def show
+    @monument = Monument.find(params[:monument_id])
+    @picture = @monument.pictures.find(params[:id])
+
     respond_with(@picture)
   end
 end

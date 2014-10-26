@@ -64,5 +64,9 @@ RSpec.describe MonumentsSearch do
         expect(search(:name => 'large', :category_id => @castles.id)).to eq [@castle]
       end
     end
+
+    context 'when search is invalid' do
+      it { expect(search({})).to eq [] }
+    end
   end
 end

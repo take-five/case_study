@@ -15,5 +15,8 @@
 /log/*.log
 /tmp
 
+# Ignore simplecov reports
+/coverage
+
 # Ignore user-specific configurations
 # config/database.yml

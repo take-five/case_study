@@ -1,27 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CollectionsController, :type => :controller do
-  before { bypass_rescue }
   before { @user = create :user }
-
-  # Shortcut to raise_error(ApplicationController::PermissionDenied)
-  def restrict_access
-    raise_error(ApplicationController::PermissionDenied)
-  end
-
-  # Usage:
-  #   it_restricts_access_to('create collection') { |user| get :new, :user_id => user }
-  def self.it_restricts_access_to(action_name, &block)
-    it 'restricts access if user is not logged in' do
-      expect { instance_exec(@user, &block) }.to restrict_access
-    end
-
-    it "restricts access if user tries to #{action_name} under another login" do
-      @other = create :user
-      sign_in @other
-      expect { instance_exec(@user, &block) }.to restrict_access
-    end
-  end
 
   describe 'GET #show' do
     before { @collection = create :collection, :user => @user }
@@ -36,8 +16,8 @@ RSpec.describe CollectionsController, :type => :controller do
   end
 
   describe 'GET #new' do
-    it_restricts_access_to 'create collection' do |user|
-      get :new, :user_id => user
+    it_restricts_access_to 'create collection' do
+      get :new, :user_id => @user
     end
 
     it 'renders collections/new template' do
@@ -51,8 +31,8 @@ RSpec.describe CollectionsController, :type => :controller do
   end
 
   describe 'POST #create' do
-    it_restricts_access_to 'create collection' do |user|
-      post :create, :user_id => user, :collection => {:name => 'xxx'}
+    it_restricts_access_to 'create collection' do
+      post :create, :user_id => @user, :collection => {:name => 'xxx'}
     end
 
     it 'renders collections/new template if errors occur' do
@@ -79,8 +59,8 @@ RSpec.describe CollectionsController, :type => :controller do
   describe 'GET #edit' do
     before { @collection = create :collection, :user => @user }
 
-    it_restricts_access_to 'edit collection' do |user|
-      get :edit, :user_id => user, :id => @collection
+    it_restricts_access_to 'edit collection' do
+      get :edit, :user_id => @user, :id => @collection
     end
 
     it 'renders categories/edit template' do
@@ -96,8 +76,8 @@ RSpec.describe CollectionsController, :type => :controller do
   describe 'PUT #update' do
     before { @collection = create :collection, :user => @user }
 
-    it_restricts_access_to 'update collection' do |user|
-      put :update, :user_id => user, :id => @collection
+    it_restricts_access_to 'update collection' do
+      put :update, :user_id => @user, :id => @collection
     end
 
     it 'renders categories/new template if errors occur' do
@@ -121,4 +101,23 @@ RSpec.describe CollectionsController, :type => :controller do
       expect(response).to be_redirect
     end
   end
+
+  describe 'DELETE #destroy' do
+    before { @collection = create :collection, :user => @user }
+
+    it_restricts_access_to 'destroy collection' do
+      delete :destroy, :user_id => @user, :id => @collection
+    end
+
+    it 'destroys collection' do
+      sign_in @user
+
+      expect {
+        delete :destroy, :user_id => @user, :id => @collection
+      }.to change(Collection, :count).from(1).to(0)
+
+      expect(response).to be_redirect
+    end
+  end
+
 end

@@ -1,6 +1,7 @@
 class MonumentsController < ApplicationController
   before_action :load_collection, :except => :search
   before_action :load_monument, :only => [:show, :edit, :update, :destroy]
+  before_action :build_monument, :only => [:new, :create]
 
   filter_access_to :show, :new, :create, :edit, :update, :destroy, :attribute_check => true
   respond_to :html
@@ -17,14 +18,10 @@ class MonumentsController < ApplicationController
   end
 
   def new
-    @monument = @collection.monuments.build
-
     respond_with(@monument)
   end
 
   def create
-    @monument = @collection.monuments.build(monument_params)
-
     if @monument.save
       redirect_to collection_monument_path(@collection, @monument), :notice => 'Monument created'
     else
@@ -40,6 +37,12 @@ class MonumentsController < ApplicationController
     if @monument.update_attributes(monument_params)
       redirect_to collection_monument_path(@collection, @monument), :notice => 'Monument updated'
     else
+      Rails.logger.debug {
+        @monument.errors.inspect
+      }
+      @monument.pictures.each do |pic|
+        Rails.logger.debug { [pic.inspect, pic.errors.inspect] }
+      end
       render :edit
     end
   end
@@ -66,5 +69,9 @@ class MonumentsController < ApplicationController
 
   def load_monument
     @monument = @collection.monuments.find(params[:id])
+  end
+
+  def build_monument
+    @monument = @collection.monuments.build(params[:monument] ? monument_params : {})
   end
 end

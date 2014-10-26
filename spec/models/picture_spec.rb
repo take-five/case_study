@@ -1,11 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Picture, :type => :model do
-  # Returns fd referring to opened fixture file
-  def fixture(name)
-    Rails.root.join('spec', 'fixtures', name).open
-  end
-
   it { is_expected.to belong_to :monument }
 
   describe 'Constraints' do

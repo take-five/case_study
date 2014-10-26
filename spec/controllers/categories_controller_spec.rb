@@ -66,7 +66,7 @@ RSpec.describe CategoriesController, :type => :controller do
   describe 'PUT #update' do
     before { @category = create :category }
 
-    it 'renders categories/new template if errors occur' do
+    it 'renders categories/edit template if errors occur' do
       expect {
         post :update, :id => @category, :category => {:name => ''}
       }.not_to change{@category.reload}

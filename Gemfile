@@ -26,8 +26,6 @@ gem 'kaminari-bootstrap'
 gem 'haml-rails'
 # Use Less for stylesheets
 gem 'less-rails'
-# Sass is required for Select2
-gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
@@ -50,6 +48,7 @@ group :development, :test do
   gem 'spring-commands-rspec'
   gem 'shoulda-matchers', :require => false
   gem 'factory_girl_rails'
+  gem 'simplecov'
 end
 
 group :development do
