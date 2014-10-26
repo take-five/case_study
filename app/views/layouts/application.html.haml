@@ -37,6 +37,9 @@
           %ul.nav.navbar-nav
             %li= link_to 'Homepage', root_path
             %li= link_to 'Users', users_path
+            - if user_signed_in?
+              %li= link_to 'My Collections', user_path(current_user)
+              %li= link_to 'Create collection', new_user_collection_path(current_user)
 
     .container
       .row
