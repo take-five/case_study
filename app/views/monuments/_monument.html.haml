@@ -1,0 +1,16 @@
+%div#monument.monument{:id => monument.id}
+  - hide_link ||= false
+
+  - unless hide_link
+    %h5
+      = link_to monument.name, collection_monument_path(monument.collection, monument)
+
+  - if monument.description.present?
+    .description= simple_format(monument.description)
+
+  - if monument.pictures.size > 0
+    - monument.pictures.each do |picture|
+      = link_to monument_picture_path(monument, picture) do
+        = image_tag picture.image.thumb.url,
+                    :alt => picture.name,
+                    :title => picture.name

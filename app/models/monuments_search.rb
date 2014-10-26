@@ -5,17 +5,17 @@ class MonumentsSearch
 
   # mutually exclusive validations
   validates :name,
-            :presence => true,
-            :unless => 'category_id.present?'
+            presence: true,
+            unless: 'category_id.present?'
 
   validates :category_id,
-            :presence => true,
-            :numericality => { only_integer: true, greater_than: 0 },
-            :unless => 'name.present?'
+            presence: true,
+            numericality: {only_integer: true, greater_than: 0},
+            unless: 'name.present?'
 
-  validate :validate_category, :if => 'category_id.present?'
+  validate :validate_category, if: 'category_id.present?'
 
-  def initialize(params)
+  def initialize(params = {})
     @name, @category_id = params.values_at(:name, :category_id).map(&:presence)
   end
 
@@ -25,9 +25,13 @@ class MonumentsSearch
     end
   end
 
+  def to_key
+    ['search']
+  end
+
   protected
   def all
-    Monument.includes(:collection => :user)
+    Monument.includes(collection: :user)
   end
 
   def search_by_category(scope)

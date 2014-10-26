@@ -1,0 +1,6 @@
+%h1 #{@category.name} monuments
+
+- @monuments.each do |monument|
+  = render 'monuments/monument', :monument => monument
+
+= paginate @monuments

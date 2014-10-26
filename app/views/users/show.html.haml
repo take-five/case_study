@@ -1,0 +1,16 @@
+%h1 #{@user.username} collections
+
+- if @collections.any?
+  %ul
+    - @collections.each do |collection|
+      %li
+        = link_to collection.name, user_collection_path(@user, collection)
+
+        - if permitted_to? :manage, collection
+          (
+          = link_to 'Edit', edit_user_collection_path(@user, collection)
+          = link_to 'Delete', user_collection_path(@user, collection), :method => :delete, :data => {:confirm => 'Are you sure?'}
+          )
+
+- if permitted_to? :create, @user.collections
+  = link_to 'New collection', new_user_collection_path(@user)

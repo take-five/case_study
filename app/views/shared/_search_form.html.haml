@@ -1,0 +1,9 @@
+%h1 Search monuments
+
+= semantic_form_for(search, :as => :search, :url => search_monuments_path, :method => :get) do |form|
+  = form.inputs do
+    = form.input :category_id, :as => :select, :collection => Category.ordered
+    = form.input :name, :as => :string
+
+  = form.actions do
+    = form.action :submit, :label => 'Search'

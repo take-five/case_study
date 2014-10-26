@@ -4,9 +4,10 @@ class CreateMonuments < ActiveRecord::Migration
       t.belongs_to :collection, null: false, index: true
       t.belongs_to :category, null: false, index: true
 
-      t.string :picture, null: false
       t.string :name, null: false
       t.text :description
+
+      t.integer :pictures_count, default: 0
 
       t.timestamps
     end

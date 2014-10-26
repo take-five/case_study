@@ -1,0 +1,9 @@
+%h1 #{@collection.name} monuments
+
+- if @monuments.any?
+  %ul
+    - @monuments.each do |monument|
+      = render 'monuments/monument', :monument => monument
+
+- if permitted_to? :create, @collection.monuments
+  = link_to 'Create monument', new_collection_monument_path(@collection)

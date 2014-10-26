@@ -3,5 +3,6 @@ class Collection < ActiveRecord::Base
 
   has_many :monuments, :dependent => :destroy
 
-  validates :name, :presence => true
+  validates :user, existence: { allow_new: true }
+  validates :name, presence: true
 end

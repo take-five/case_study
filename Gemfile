@@ -11,14 +11,23 @@ gem 'carrierwave'
 gem 'mini_magick'
 # Use Devise for authentication
 gem 'devise'
-# Use cancancan for authentication
-gem 'cancancan'
-# Use HAML as template language
-gem 'haml-rails'
+# Use declarative_authorization for authentication
+gem 'declarative_authorization', github: 'stffn/declarative_authorization'
+# Use Formtastic + Cocoon to handle dynamic forms
+gem 'formtastic'
+gem 'cocoon'
+gem 'formtastic-bootstrap', github: '0xCCD/formtastic-bootstrap'
 # Use Twitter Bootstrap for visual appeal
 gem 'twitter-bootstrap-rails'
+# Use kaminari for pagination
+gem 'kaminari'
+gem 'kaminari-bootstrap'
+# Use HAML as template language
+gem 'haml-rails'
 # Use Less for stylesheets
 gem 'less-rails'
+# Sass is required for Select2
+gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views

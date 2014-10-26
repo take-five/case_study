@@ -1,0 +1,17 @@
+= semantic_form_for([monument.collection, monument]) do |f|
+  = f.semantic_errors
+
+  = f.inputs do
+    = f.input :category
+    = f.input :name
+    = f.input :description, :input_html => { :rows => 5 }
+
+  = f.semantic_fields_for :pictures do |picture|
+    = render 'picture_fields', :f => picture
+
+  .links
+    = link_to_add_association 'Add picture', f, :pictures
+
+
+  = f.actions do
+    = f.action :submit

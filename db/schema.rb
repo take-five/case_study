@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141024114201) do
+ActiveRecord::Schema.define(version: 20141025162242) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,17 +32,31 @@ ActiveRecord::Schema.define(version: 20141024114201) do
   add_index "collections", ["user_id", "name"], name: "index_collections_on_user_id_and_name", using: :btree
 
   create_table "monuments", force: true do |t|
-    t.integer  "collection_id", null: false
-    t.integer  "category_id",   null: false
-    t.string   "picture",       null: false
-    t.string   "name",          null: false
+    t.integer  "collection_id",              null: false
+    t.integer  "category_id",                null: false
+    t.string   "name",                       null: false
     t.text     "description"
+    t.integer  "pictures_count", default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "monuments", ["category_id"], name: "index_monuments_on_category_id", using: :btree
   add_index "monuments", ["collection_id"], name: "index_monuments_on_collection_id", using: :btree
+
+  create_table "pictures", force: true do |t|
+    t.integer  "monument_id"
+    t.string   "image",       null: false
+    t.integer  "width",       null: false
+    t.integer  "height",      null: false
+    t.string   "name"
+    t.text     "description"
+    t.date     "taken_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "pictures", ["monument_id", "taken_at"], name: "index_pictures_on_monument_id_and_taken_at", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "username",               null: false

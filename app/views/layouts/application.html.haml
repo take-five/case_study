@@ -29,13 +29,14 @@
         .navbar-collapse.collapse.navbar-responsive-collapse
           %ul.nav.nav-pills.pull-right
             - if user_signed_in?
+              %li= link_to current_user.email, edit_user_registration_path
               %li= link_to 'Sign out', destroy_user_session_path, :method => :delete
             - else
               %li= link_to 'Sign in', new_user_session_path
               %li= link_to 'Sign up', new_user_registration_path
           %ul.nav.navbar-nav
-            %li= link_to 'Link 1', '/path1'
-            %li= link_to 'Link 2', '/path2'
+            %li= link_to 'Homepage', root_path
+            %li= link_to 'Users', users_path
             %li= link_to 'Link 3', '/path3'
             %li= link_to 'Link 3', '/path3'
 
@@ -43,14 +44,10 @@
       .row
         .col-lg-9
           = bootstrap_flash
+
           = yield
         .col-lg-3
           .well.sidebar-nav
-            %h3 Sidebar
-            %ul.nav.nav-list
-              %li.nav-header Sidebar
-              %li= link_to 'Link 1', '/path1'
-              %li= link_to 'Link 2', '/path2'
-              %li= link_to 'Link 3', '/path3'
+            = render 'shared/search_form', :search => (@search || MonumentsSearch.new)
       %footer
         %p &copy; Company 2014

@@ -1,10 +1,10 @@
 FactoryGirl.define do
-  factory :monument do
-    collection
-    category
-    picture { File.open(File.expand_path('../fixtures/picture.jpg', __dir__)) }
-    name 'Monument'
-    description 'Monument description'
+  factory :picture do
+    monument
+    name 'Picture name'
+    description 'Picture description'
+    taken_at { Date.today }
+    image { File.open(File.expand_path('../fixtures/picture.jpg', __dir__)) }
   end
 
 end

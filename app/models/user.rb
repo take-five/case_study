@@ -3,12 +3,12 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :collections, :dependent => :destroy
+  has_many :collections, dependent: :destroy
 
-  validates :username, :presence => true, :uniqueness => true
+  validates :username, presence: true, uniqueness: true
 
-  # A way to generate URLs like /users/alex/collections
-  def to_param
-    username
+  # declarative_authorization requires user object to respond to #role_symbols
+  def role_symbols
+    [:user]
   end
 end
