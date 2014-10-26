@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   resources :monuments, only: [] do
     get :search, on: :collection
 
-    resources :pictures
+    resources :pictures, only: :show
   end
   resources :categories, except: :index
 end

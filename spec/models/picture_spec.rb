@@ -10,7 +10,6 @@ RSpec.describe Picture, :type => :model do
 
   describe 'Constraints' do
     it { is_expected.to validate_presence_of :image }
-    it { is_expected.to validate_presence_of(:monument).with_message(/does not exist/) }
 
     describe 'File extension' do
       let(:wrong_file) { Tempfile.new(['spec', '.txt']) }

@@ -1,0 +1,9 @@
+- monument = @picture.monument
+%h1= @picture.name.presence || monument.name
+
+%div
+  = link_to 'Back to monument', collection_monument_path(monument.collection, monument)
+
+= simple_format @picture.description
+
+= image_tag @picture.image.url, :width => @picture.width, :height => @picture.height

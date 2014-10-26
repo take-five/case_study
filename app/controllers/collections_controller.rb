@@ -1,5 +1,10 @@
 class CollectionsController < ApplicationController
-  filter_resource_access :nested_in => :user, :no_attribute_check => []
+  before_action :load_user
+  before_action :load_collection, :except => [:new, :create]
+  before_action :build_collection, :only => [:new, :create]
+
+  filter_access_to :all, :attribute_check => true
+
   respond_to :html
 
   def show
@@ -9,11 +14,13 @@ class CollectionsController < ApplicationController
   end
 
   def new
+    @collection = @user.collections.build
+
     respond_with(@collection)
   end
 
   def create
-    if @user.collections.create(collection_params)
+    if @collection.save
       redirect_to user_path(@user), :notice => 'Collection created'
     else
       render :new
@@ -43,5 +50,17 @@ class CollectionsController < ApplicationController
   private
   def collection_params
     params.require(:collection).permit(:name)
+  end
+
+  def load_user
+    @user = User.find(params[:user_id])
+  end
+
+  def load_collection
+    @collection = @user.collections.find(params[:id])
+  end
+
+  def build_collection
+    @collection = @user.collections.build(params[:collection] ? collection_params : {})
   end
 end

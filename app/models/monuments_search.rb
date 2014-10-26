@@ -19,9 +19,11 @@ class MonumentsSearch
     @name, @category_id = params.values_at(:name, :category_id).map(&:presence)
   end
 
-  def search
-    if valid?
+  def results
+    @results ||= if valid?
       search_by_name search_by_category all
+    else
+      none
     end
   end
 
@@ -29,9 +31,25 @@ class MonumentsSearch
     ['search']
   end
 
+  # Human readable search query title
+  def to_s
+    if valid?
+      string = "Found #{results.count} results"
+      string << " by #{name}" if name.present?
+      string << " within #{category.name}" if category.present?
+      string
+    else
+      'Invalid search query'
+    end
+  end
+
   protected
   def all
     Monument.includes(collection: :user)
+  end
+
+  def none
+    Monument.none
   end
 
   def search_by_category(scope)

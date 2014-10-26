@@ -17,7 +17,7 @@ RSpec.describe UsersController, :type => :controller do
     before { @collection = create :collection, :user => @user }
 
     it 'shows user collections' do
-      get :show, :id => @user.id
+      get :show, :id => @user
 
       expect(response).to be_success
       expect(assigns(:user)).to eq @user

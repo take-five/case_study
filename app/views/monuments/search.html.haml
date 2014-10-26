@@ -1,0 +1,8 @@
+%h1= @search.to_s
+
+- if @results.any?
+  %ul
+    - @results.each do |monument|
+      = render 'monuments/monument', :monument => monument
+
+  = paginate @results

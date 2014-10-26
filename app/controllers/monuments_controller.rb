@@ -1,12 +1,24 @@
 class MonumentsController < ApplicationController
-  filter_resource_access :nested_in => :collection, :no_attribute_check => []
+  before_action :load_collection, :except => :search
+  before_action :load_monument, :only => [:show, :edit, :update, :destroy]
+
+  filter_access_to :show, :new, :create, :edit, :update, :destroy, :attribute_check => true
   respond_to :html
+
+  def search
+    @search = MonumentsSearch.new(params.require(:search).permit(:category_id, :name))
+    @results = @search.results.page(params[:page])
+
+    respond_with(@search)
+  end
 
   def show
     respond_with(@monument)
   end
 
   def new
+    @monument = @collection.monuments.build
+
     respond_with(@monument)
   end
 
@@ -46,5 +58,13 @@ class MonumentsController < ApplicationController
         :category_id, :name, :description,
         :pictures_attributes => [:id, :name, :description, :image, :_destroy]
     )
+  end
+
+  def load_collection
+    @collection = Collection.find(params[:collection_id])
+  end
+
+  def load_monument
+    @monument = @collection.monuments.find(params[:id])
   end
 end

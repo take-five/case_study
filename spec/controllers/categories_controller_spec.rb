@@ -18,7 +18,7 @@ RSpec.describe CategoriesController, :type => :controller do
     before { @monument = create :monument, :category => @category }
 
     it 'shows given category monuments' do
-      get :show, :id => @category.id
+      get :show, :id => @category
 
       expect(response).to be_success
       expect(assigns(:monuments)).to eq [@monument]
@@ -56,7 +56,7 @@ RSpec.describe CategoriesController, :type => :controller do
     before { @category = create :category }
 
     it 'renders categories/edit template' do
-      get :edit, :id => @category.id
+      get :edit, :id => @category
 
       expect(response).to be_success
       expect(response).to have_rendered 'edit'
@@ -68,7 +68,7 @@ RSpec.describe CategoriesController, :type => :controller do
 
     it 'renders categories/new template if errors occur' do
       expect {
-        post :update, :id => @category.id, :category => {:name => ''}
+        post :update, :id => @category, :category => {:name => ''}
       }.not_to change{@category.reload}
 
       expect(response).to be_success
@@ -77,7 +77,7 @@ RSpec.describe CategoriesController, :type => :controller do
 
     it 'updates category' do
       expect {
-        post :update, :id => @category.id, :category => {:name => 'new name'}
+        post :update, :id => @category, :category => {:name => 'new name'}
       }.to change{@category.reload.name}.to('new name')
 
       expect(response).to be_redirect
@@ -89,7 +89,7 @@ RSpec.describe CategoriesController, :type => :controller do
 
     it 'destroys category' do
       expect {
-        delete :destroy, :id => @category.id
+        delete :destroy, :id => @category
       }.to change(Category, :count).from(1).to(0)
 
       expect(response).to be_redirect

@@ -40,7 +40,7 @@ RSpec.describe MonumentsSearch do
     before { @tower = create(:monument, :name => 'large tower', :category => @towers) }
 
     def search(params)
-      described_class.new(params).search
+      described_class.new(params).results
     end
 
     context 'when searched by category' do

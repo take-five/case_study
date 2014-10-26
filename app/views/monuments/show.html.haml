@@ -1,5 +1,8 @@
 %h1 Monument #{@monument.name}
 
+Category:
+= link_to @monument.category.name, category_path(@monument.category)
+
 = render 'monument', :monument => @monument, :hide_link => true
 
 - if permitted_to? :update, @monument
