@@ -55,6 +55,12 @@ group :development do
   gem 'quiet_assets'
 end
 
+group :production do
+  gem 'fog'
+  gem 'rails_12factor'
+  gem 'unicorn'
+end
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

@@ -3,7 +3,7 @@
 class PictureUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
-  storage :file
+  storage(Rails.env.production? ? :fog : :file)
 
   process resize_to_fit: [900, 600]
   process :store_dimensions

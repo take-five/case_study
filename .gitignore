@@ -20,3 +20,5 @@
 
 # Ignore user-specific configurations
 # config/database.yml
+
+/public/uploads
